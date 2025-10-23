@@ -1,0 +1,7 @@
+[project]
+name = "population_evo"
+version = "0.1.0"
+
+[tool.setuptools]
+packages = ["population_evo"]
+
