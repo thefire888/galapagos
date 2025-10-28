@@ -1,7 +1,3 @@
-"""
-Relies on Individual for typesetting
-"""
-from individual import Individual
 import random
 
 
@@ -15,7 +11,7 @@ class Utils:
             cumulative_fit += individual.fitness
         return cumulative_fit
 
-    def select_individual(available_individuals: list) -> Individual:
+    def select_individual(available_individuals: list) -> 'Individual':
         # In probability theory, this is known
         # as sampling from a discrete distribution.
         cumulative_fit = 0
