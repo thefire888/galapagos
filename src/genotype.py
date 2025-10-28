@@ -1,22 +1,20 @@
 """
 Defines a given genotype
 """
-import Locus
-from typing import Self
 
 
 class Genotype:
     def __init__(self, size: int):
         self.__size = size
-        self.__loci = [None] * size # Gera uma genótipo vazio com 
-                                  # `size` loci
+        self.__loci = [None] * size  # Gera uma genótipo vazio com
+                                     # `size` loci
 
     def __str__(self):
         return_string = ""
         for i in range(len(self)):
-            return_string += f"{self[i]} " 
+            return_string += f"{self[i]} "
         return return_string
-    
+
     def __len__(self):
         return self.__size
 

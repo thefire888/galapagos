@@ -1,5 +1,4 @@
-import random 
-from typing import Self
+import random
 
 
 class Locus:
@@ -8,8 +7,8 @@ class Locus:
 
     def __str__(self):
         return f"{self.alleles[0]}{self.alleles[1]}"
-    
+
     @property
     def alelle(self):
-        rand = random.randint(0,1)
+        rand = random.randint(0, 1)
         return self.alleles[rand]
