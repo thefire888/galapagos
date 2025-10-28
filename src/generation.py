@@ -24,7 +24,7 @@ class Generation:
         return_string = ""
         for i in range(len(self)):
             return_string += f"Indivíduo {i}: {self[i]}\n"
-            return return_string
+        return return_string
 
     def next(self) -> Self:
         next_gen = Generation(size=len(self))

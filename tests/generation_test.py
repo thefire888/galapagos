@@ -95,7 +95,8 @@ for i in range(population_size):
         genotype[0] = gene_pool_b[0]
     else:
         genotype[0] = gene_pool_b[2]
-        individuals_list.append(Individual(sex=Utils.random_sex(), genotype = genotype))
+    individuals_list.append(Individual(sex=Utils.random_sex(),
+                                       genotype=genotype))
 
 first_gen = Generation(size=population_size, individuals=individuals_list)
 print(f"Geração 1:\n{first_gen}")
