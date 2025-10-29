@@ -1,7 +1,7 @@
 [workspace]
 authors = ["Luan Leal <luanric888@gmail.com>"]
 channels = ["conda-forge", "bioconda"]
-name = "population_evo"
+name = "galapagos"
 platforms = ["linux-64"]
 version = "0.1.0"
 
