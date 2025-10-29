@@ -49,3 +49,13 @@ class Generation:
             next_gen[i] = newborn
 
         return next_gen
+
+    def get_locus_frequency(self, locus: Locus):
+        freq = 0
+        for i in self:
+            for j in i.genotype:
+                if j == locus:
+                    freq += 1
+
+        return float(freq/len(self))
+
