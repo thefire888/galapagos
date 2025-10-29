@@ -1,4 +1,5 @@
 import random
+from typing import Self
 
 
 class Locus:
@@ -7,6 +8,9 @@ class Locus:
 
     def __str__(self):
         return f"{self.alleles[0]}{self.alleles[1]}"
+
+    def __eq__(self, other: Self) -> bool:
+        return self.alleles == other.alleles
 
     @property
     def alelle(self):
