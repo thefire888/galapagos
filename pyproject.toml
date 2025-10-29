@@ -1,7 +1,8 @@
 [project]
-name = "population_evo"
+name = "galapagos"
 version = "0.1.0"
 
 [tool.setuptools]
-packages = ["population_evo"]
+package-dir = {"" = "src"}
+packages = ["galapagos"]
 
