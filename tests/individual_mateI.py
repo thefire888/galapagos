@@ -1,10 +1,6 @@
-import sys
-import os
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
-
-from locus import Locus
-from genotype import Genotype
-from individual import Individual
+from galapagos.locus import Locus
+from galapagos.genotype import Genotype
+from galapagos.individual import Individual
 
 
 # Ensaio I - Testando API do Individual e fazendo amor

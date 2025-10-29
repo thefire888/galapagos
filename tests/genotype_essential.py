@@ -1,5 +1,5 @@
 from galapagos.locus import Locus
-from genotype import Genotype
+from galapagos.genotype import Genotype
 
 # Teste Unitário da classe Genotype
 # Resultado esperado: printa o genótipo criado
