@@ -2,7 +2,7 @@ import random
 
 
 class Utils:
-    def random_sex():
+    def random_sex() -> str:
         return "M" if random.randint(0, 1) == 0 else "F"
 
     def get_total_cumulative_fit(available_individuals: list):
