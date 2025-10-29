@@ -1,8 +1,4 @@
-import sys
-import os
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
-
-from locus import Locus
+from galapagos.locus import Locus
 from genotype import Genotype
 
 # Teste Unitário da classe Genotype
