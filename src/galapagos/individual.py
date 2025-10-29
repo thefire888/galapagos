@@ -1,10 +1,10 @@
 """
 Defines an individual to simulate.
 """
-from genotype import Genotype
-from locus import Locus
+from galapagos.genotype import Genotype
+from galapagos.locus import Locus
+from galapagos.utils import Utils
 from typing import Self
-from utils import Utils
 
 
 class Individual:

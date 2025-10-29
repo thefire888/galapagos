@@ -2,8 +2,8 @@
 Defines the current individuals in the population.
 Responsible for generating the next generation
 """
+from galapagos.utils import Utils
 from typing import Self
-from utils import Utils
 
 
 class Generation:
