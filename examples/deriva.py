@@ -1,12 +1,8 @@
-import sys
-import os
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
-
-from locus import Locus
-from genotype import Genotype
-from individual import Individual
-from generation import Generation
-from utils import Utils
+from galapagos.locus import Locus
+from galapagos.genotype import Genotype
+from galapagos.individual import Individual
+from galapagos.generation import Generation
+from galapagos.utils import Utils
 
 
 # Ensaio VI - Simulando deriva genética
