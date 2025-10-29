@@ -4,7 +4,8 @@ from typing import Self
 
 class Locus:
     def __init__(self, alleles: tuple):
-        self.alleles = alleles
+        self.alleles = set(alleles)  # TODO: refatorar os testes para o Locus
+                                     # receber set invés de tuple
 
     def __str__(self):
         return f"{self.alleles[0]}{self.alleles[1]}"
