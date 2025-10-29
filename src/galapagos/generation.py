@@ -7,8 +7,9 @@ from typing import Self
 
 
 class Generation:
-    def __init__(self, size: int, individuals: list = []):
+    def __init__(self, size: int, individuals: list = [], genepool: list = []):
         self.__size = size
+        self.__genepool = genepool
         self.individuals = individuals if individuals else [None] * size
 
     def __len__(self):
@@ -26,8 +27,12 @@ class Generation:
             return_string += f"Indivíduo {i}: {self[i]}\n"
         return return_string
 
+    @property
+    def genepool(self):
+        return self.__genepool
+
     def next(self) -> Self:
-        next_gen = Generation(size=len(self))
+        next_gen = Generation(size=len(self), genepool=self.genepool)
         male_available_individuals = []
         female_available_individuals = []
         for individual in self.individuals:
@@ -40,6 +45,7 @@ class Generation:
             father = Utils.select_individual(male_available_individuals)
             mother = Utils.select_individual(female_available_individuals)
             newborn = father.mate(mother)
+            newborn.update_fitness(self.genepool)
             next_gen[i] = newborn
 
         return next_gen

@@ -22,6 +22,10 @@ class Individual:
     def fitness(self):
         return self.__fitness
 
+    @fitness.setter
+    def fitness(self, fitness):
+        self.__fitness = fitness
+
     @property
     def sex(self):
         return self.__sex
@@ -39,3 +43,10 @@ class Individual:
         newborn = Individual(new_sex, new_genotype)
 
         return newborn
+
+    def update_fitness(self, genepool):
+        if genepool:
+            self.fitness = 0.0
+            for gene in genepool:
+                if gene[0] in self.genotype:
+                    self.fitness += gene[1]/len(self.genotype)

@@ -23,3 +23,9 @@ class Genotype:
 
     def __setitem__(self, key, value):
         self.__loci[key] = value
+
+    def __contains__(self, locus):
+        for item in self:
+            if item == locus:
+                return True
+        return False
