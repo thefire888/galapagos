@@ -3,9 +3,10 @@ from galapagos.utils import Utils
 from galapagos.genotype import Genotype
 from galapagos.individual import Individual
 from plotnine import *
-from plotnine.data import anscombe_quartet
+from plotnine.data import mtcars
 import matplotlib.pyplot as plt
 import numpy as np
+import polars as pl
 
 class Simulation:
     def __init__(self, 
@@ -41,33 +42,22 @@ class Simulation:
             self.generation_history.append(new_generation)
 
     def show(self):
+        data = []
         for i in self.genepool:
             locus = i[0]
             loci = []
             for gen in self.generation_history:
                 loci.append(gen.get_locus_frequency(locus))
 
-            generation_count = np.linspace(0,
-                                           len(self.generation_history) - 1, 
-                                           len(self.generation_history))
 
-            plt.scatter(generation_count, 
-                        loci, 
-                        alpha=0.2, 
-                        s=10
+            data.append(pl.Series(
+                                  str(locus),
+                                  loci)
                         )
-        plt.figure(figsize=(10, 7))
-        plt.xlabel('Frequência Alelo "ref" ($p$)', fontsize=12)
-        plt.ylabel('Frequência Genotípica', fontsize=12)
-        plt.title('Observado vs. Esperado (Equilíbrio de Hardy-Weinberg) \n Braço Curto', fontsize=14)
-        plt.grid(True, linestyle=':', alpha=0.2)
-        plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1), ncol=2)
-        plt.tight_layout(rect=[0, 0.05, 1, 1]) # Ajusta espaço para a legenda
 
-        plt.show()
-
-        ggplot(anscombe_quartet, aed(x="x", y="y")) + geom_point()
-
-
-
-
+        df = pl.DataFrame(data)
+        print(df)
+        (
+            ggplot(df)
+            + geom_bar(position="fill")
+        ).show()
