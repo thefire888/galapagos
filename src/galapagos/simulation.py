@@ -2,6 +2,8 @@ from galapagos.generation import Generation
 from galapagos.utils import Utils
 from galapagos.genotype import Genotype
 from galapagos.individual import Individual
+from plotnine import *
+from plotnine.data import anscombe_quartet
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -63,6 +65,8 @@ class Simulation:
         plt.tight_layout(rect=[0, 0.05, 1, 1]) # Ajusta espaço para a legenda
 
         plt.show()
+
+        ggplot(anscombe_quartet, aed(x="x", y="y")) + geom_point()
 
 
 
