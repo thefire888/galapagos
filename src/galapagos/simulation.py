@@ -15,6 +15,7 @@ class Simulation:
         self.max_generations = max_generations
         self.population_size = population_size
         self.genepool = genepool
+        self.data = []
 
         first_individuals_list = []
 
@@ -34,23 +35,24 @@ class Simulation:
                                       )
         self.generation_history = [self.first_generation]
 
+    def _process_generation_data(self, generation, index: int):
+        for i in self.genepool:
+            locus = i[0]
+            freq = generation.get_locus_frequency(locus)
+            self.data.append({
+                "generation": index,
+                "genotype": str(locus),
+                "frequency": freq
+            })
+
     def simulate(self):
         for i in range(self.max_generations):
             new_generation = self.generation_history[i].next()
             self.generation_history.append(new_generation)
+            self._process_generation_data(new_generation, index=i + 1)
 
     def show(self):
-        data = []
-        for index, gen in enumerate(self.generation_history):
-            for i in self.genepool:
-                locus = i[0]
-                freq = gen.get_locus_frequency(locus)
-                data.append({"generation": index,
-                             "genotype": str(locus),
-                             "frequency": freq
-                    })
-
-        df = pl.DataFrame(data)
+        df = pl.DataFrame(self.data)
         (
             ggplot(df, aes(x="generation", y="frequency", color="genotype"))
             + geom_line(size=1)
