@@ -3,7 +3,6 @@ from galapagos.utils import Utils
 from galapagos.genotype import Genotype
 from galapagos.individual import Individual
 from plotnine import *
-import matplotlib.pyplot as plt
 import numpy as np
 import polars as pl
 
@@ -47,13 +46,12 @@ class Simulation:
                 locus = i[0]
                 freq = gen.get_locus_frequency(locus)
                 data.append({"generation": index,
-                             "genotype": str(locus), #TODO: Ajustar str do Locus para ordem canônica
+                             "genotype": str(locus),
                              "frequency": freq
                     })
 
         df = pl.DataFrame(data)
-        print(df)
         (
             ggplot(df, aes(x="generation", y="frequency", color="genotype"))
-            + geom_bar(position="fill")
+            + geom_line(size=1)
         ).show()

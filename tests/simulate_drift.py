@@ -5,8 +5,8 @@ genepool = [(Locus(("A", "A")), 1.0),
             (Locus(("A", "a")), 1.0),
             (Locus(("a", "a")), 1.0)
             ]
-simulation = Simulation(100,
-                        20,
+simulation = Simulation(max_generations=150,
+                        population_size=20,
                         genepool=genepool
                         )
 

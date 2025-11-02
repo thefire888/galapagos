@@ -7,7 +7,8 @@ class Locus:
         self.alleles = alleles  
 
     def __str__(self):
-        return f"{self.alleles[0]}{self.alleles[1]}"
+        canon_alleles = sorted(self.alleles)
+        return f"{canon_alleles[0]}{canon_alleles[1]}"
 
     def __eq__(self, other: Self) -> bool:
         return set(self.alleles) == set(other.alleles)
