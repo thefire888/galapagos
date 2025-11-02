@@ -3,7 +3,6 @@ from galapagos.utils import Utils
 from galapagos.genotype import Genotype
 from galapagos.individual import Individual
 from plotnine import *
-from plotnine.data import mtcars
 import matplotlib.pyplot as plt
 import numpy as np
 import polars as pl
@@ -43,21 +42,18 @@ class Simulation:
 
     def show(self):
         data = []
-        for i in self.genepool:
-            locus = i[0]
-            loci = []
-            for gen in self.generation_history:
-                loci.append(gen.get_locus_frequency(locus))
-
-
-            data.append(pl.Series(
-                                  str(locus),
-                                  loci)
-                        )
+        for index, gen in enumerate(self.generation_history):
+            for i in self.genepool:
+                locus = i[0]
+                freq = gen.get_locus_frequency(locus)
+                data.append({"generation": index,
+                             "genotype": str(locus), #TODO: Ajustar str do Locus para ordem canônica
+                             "frequency": freq
+                    })
 
         df = pl.DataFrame(data)
         print(df)
         (
-            ggplot(df)
+            ggplot(df, aes(x="generation", y="frequency", color="genotype"))
             + geom_bar(position="fill")
         ).show()
