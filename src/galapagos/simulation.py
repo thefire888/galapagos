@@ -5,7 +5,7 @@ from galapagos.individual import Individual
 from plotnine import *
 import numpy as np
 import polars as pl
-
+import math
 
 class Simulation:
     def __init__(self,
@@ -23,8 +23,8 @@ class Simulation:
         for i in range(population_size):
             new_sex = Utils.random_sex()
             new_genotype = Genotype(size=1)
-            new_genotype[0] = self.genepool[0][0] if i < population_size/2 else self.genepool[2][0]
-            new_fitness = self.genepool[0][1] if i < population_size/2 else self.genepool[2][1]
+            new_genotype[0] = self.genepool[0][0] if i < math.ceil(population_size*5/100) else self.genepool[2][0]
+            new_fitness = self.genepool[0][1] if i < math.ceil(population_size*5/100) else self.genepool[2][1]
             new_individual = Individual(sex=new_sex,
                                         genotype=new_genotype,
                                         fitness=new_fitness)
