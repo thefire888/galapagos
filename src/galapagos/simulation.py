@@ -46,27 +46,10 @@ class Simulation:
                 "frequency": freq
             })
 
-    def simulate(self):
-        gene_lines = [
-            f"Gene: {str(gene)}, Fitness: {fitness}"
-            for gene, fitness in self.genepool
-        ]
-
-        gene_list_str = "\n".join(gene_lines)
-        print(f"""INPUT:
-              maximum number of generations: {self.max_generations},
-              population size: {self.population_size},
-              available genes: {gene_lines}
-              """
-             )
-        for i in range(self.max_generations):
-            new_generation = self.generation_history[i].next()
-            self.generation_history.append(new_generation)
-            self._process_generation_data(new_generation, index=i + 1)
-
-    def HW_model(self) -> list:
+    def _selection_model(self) -> list:
+        # TODO: Rever referência, me parece errado
         data_theory = []
-        first_gen = self.generation_history[1]
+        first_gen = self.first_generation
         freq_prev = {}
         freq_theory = {}
 
@@ -91,22 +74,38 @@ class Simulation:
             freq_prev = freq_theory
         return data_theory
 
+    def simulate(self):
+        gene_lines = [
+            f"Gene: {str(gene)}, Fitness: {fitness}"
+            for gene, fitness in self.genepool
+        ]
+
+        print(f"""INPUT:
+              maximum number of generations: {self.max_generations},
+              population size: {self.population_size},
+              available genes: {gene_lines}
+              """
+             )
+        for i in range(self.max_generations):
+            new_generation = self.generation_history[i].next()
+            self.generation_history.append(new_generation)
+            self._process_generation_data(new_generation, index=i + 1)
 
     def show(self):
 
         df_simu = pl.DataFrame(self.data)
-        df_theory = pl.DataFrame(self.HW_model())
+        # df_theory = pl.DataFrame(self._selection_model())
         (
             ggplot(df_simu, aes(x="generation", color="genotype"))
-            + geom_line(aes(y="frequency", linetype="'Simulado'"), size=1)
-            + geom_line(data=df_theory,
-                       mapping=aes(y="expected_frequency", linetype="'Teórico'"),
-                       size=1
-                       )
-            + labs(y="Frequência")
+            + geom_line(aes(y="frequency"), size=1)
+            # + geom_line(data=df_theory,
+            #            mapping=aes(y="expected_frequency", linetype="'Teórico'"),
+            #            size=1
+            #            )
+            + labs(x="Geração", y="Frequência", color="Genótipo")
 
-            + scale_linetype_manual(
-                name="Fonte dos Dados",
-                values={"Simulado": "solid", "Teórico": "dashed"}
-            )
+            # + scale_linetype_manual(
+            #     name="Fonte dos Dados",
+            #     values={"Simulado": "solid", "Teórico": "dashed"}
+            # )
         ).show()
