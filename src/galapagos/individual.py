@@ -18,6 +18,9 @@ class Individual:
         return (f"Sexo: {self.sex} Genótipo: {self.genotype}"
                 f"Fitness: {self.__fitness}")
 
+    def __eq__(self, other):
+        return (self.fitness == other.fitness) and (self.sex == other.sex) and (self.genotype == other.genotype)
+
     @property
     def fitness(self):
         return self.__fitness
@@ -33,10 +36,9 @@ class Individual:
     def mate(self, other: Self) -> Self:
         new_genotype = Genotype(size=len(self.genotype))
         for i in range(len(self.genotype)):
-            locus = Locus(
-                (self.genotype[i].alelle,
-                 other.genotype[i].alelle)
-            )
+            locus = Locus( (self.genotype[i].pass_alelle(),
+                            other.genotype[i].pass_alelle())
+                          )
             new_genotype[i] = locus
 
         new_sex = Utils.random_sex()

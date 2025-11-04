@@ -13,10 +13,9 @@ class Locus:
             return_str += f"{i}"
         return return_str
 
-    def __eq__(self, other: Self) -> bool:
+    def __eq__(self, other: Self):
         return set(self.alleles) == set(other.alleles)
 
-    @property
-    def alelle(self):
-        rand = random.randint(0, 1)
+    def pass_alelle(self):
+        rand = random.randint(0, len(self.alleles) - 1)
         return self.alleles[rand]

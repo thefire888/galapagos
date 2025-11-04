@@ -8,7 +8,7 @@ class Utils:
     def get_total_cumulative_fit(available_individuals: list):
         cumulative_fit = 0
         for individual in available_individuals:
-            cumulative_fit += individual.fitness
+            cumulative_fit += individual[0].fitness * individual[1]
         return cumulative_fit
 
     def select_individual(available_individuals: list) -> 'Individual':
@@ -20,9 +20,9 @@ class Utils:
                                 )
         rand = random.uniform(0, total_cumulative_fit)
         for individual in available_individuals:
-            cumulative_fit += individual.fitness
+            cumulative_fit += individual[0].fitness * individual[1]
             if cumulative_fit > rand:
-                return individual
+                return individual[0]
 
         if cumulative_fit <= rand:
             raise Exception("Valor aleatório não mapeia para "

@@ -29,3 +29,11 @@ class Genotype:
             if item == locus:
                 return True
         return False
+
+    def __eq__(self, other):
+        # TODO: Implement correct eq later
+        return set(self.loci) == set(other.loci)
+
+    @property
+    def loci(self):
+        return self.__loci

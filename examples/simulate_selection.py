@@ -2,10 +2,10 @@ from galapagos.simulation import Simulation
 from galapagos.locus import Locus
 
 genepool = [(Locus(("A", "A")), 1.0),
-            (Locus(("A", "a")), 1.5),
-            (Locus(("a", "a")), 1.0)
+            (Locus(("A", "a")), 1.0),
+            (Locus(("a", "a")), 1.1)
             ]
-simulation = Simulation(max_generations=300,
+simulation = Simulation(max_generations=100,
                         population_size=200,
                         genepool=genepool
                         )
