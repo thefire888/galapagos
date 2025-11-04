@@ -36,8 +36,8 @@ class Individual:
     def mate(self, other: Self) -> Self:
         new_genotype = Genotype(size=len(self.genotype))
         for i in range(len(self.genotype)):
-            locus = Locus( (self.genotype[i].pass_alelle(),
-                            other.genotype[i].pass_alelle())
+            locus = Locus( (self.genotype[i].pass_allele(),
+                            other.genotype[i].pass_allele())
                           )
             new_genotype[i] = locus
 

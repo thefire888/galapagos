@@ -11,19 +11,11 @@ gene_pool_a = [
                 (Locus(('a', 'a')), 1.0)
               ]
 
-gene_pool_b = [
-                (Locus(('B', 'B')), 1.0),
-                (Locus(('B', 'b')), 1.0),
-                (Locus(('b', 'b')), 1.0)
-              ]
-
-genotype_a = Genotype(size=2)
+genotype_a = Genotype(size=1)
 genotype_a[0] = gene_pool_a[0][0]
-genotype_a[1] = gene_pool_b[0][0]
 
-genotype_b = Genotype(size=2)
-genotype_b[0] = gene_pool_a[0][0]
-genotype_b[1] = gene_pool_b[0][0]
+genotype_b = Genotype(size=1)
+genotype_b[0] = gene_pool_a[2][0]
 
 individual_a = Individual(sex='M', genotype=genotype_a)
 individual_b = Individual(sex='F', genotype=genotype_b)
@@ -35,10 +27,10 @@ population = [
 
 first_gen = Generation(population=population)
 
-simulation = Simulation(max_generations=150,
+simulation = Simulation(max_generations=3,
                         first_generation=first_gen,
                         population_size=20,
-                        genepool=genepool
+                        genepool=gene_pool_a
                         )
 
 simulation.simulate()

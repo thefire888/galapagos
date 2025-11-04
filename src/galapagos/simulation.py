@@ -3,6 +3,7 @@ from galapagos.utils import Utils
 from galapagos.genotype import Genotype
 from galapagos.individual import Individual
 from plotnine import *
+from collections import defaultdict
 import numpy as np
 import polars as pl
 import math
@@ -22,14 +23,26 @@ class Simulation:
         self.first_generation = first_generation
         self.generation_history = [self.first_generation]
 
+    # TODO: Still under development
+    def _get_individual_allele_frequency(self, 
+                                         freq_dict,
+                                         individual: Individual, 
+                                         individual_count: str):
+        for locus in individual.genotype:
+            for allele in locus:
+                freq_dict[allele] += individual_count
+
     def _process_generation_data(self, generation, index: int):
-        for i in self.genepool:
-            locus = i[0]
-            freq = generation.get_locus_frequency(locus)
+        freq_dict = defaultdict(int)
+        for individual, individual_count in generation:
+            self._get_individual_allele_frequency(freq_dict, individual, individual_count)
+
+        locus = generation[0][0].genotype.loci[0]
+        for allele, allele_count in freq_dict.items():
             self.data.append({
                 "generation": index,
-                "genotype": str(locus),
-                "frequency": freq
+                "allele": str(allele),
+                "frequency": allele_count / (len(locus) * len(generation))
             })
 
     def _selection_model(self) -> list:
@@ -60,13 +73,19 @@ class Simulation:
             freq_prev = freq_theory
         return data_theory
 
+    def get_allele_frequency(self, allele: str):
+        df = pl.DataFrame(self.data)
+        return df.filter(pl.col("allele") == allele).sum()
+
     def simulate(self):
         gene_lines = [
             f"Gene: {str(gene)}, Fitness: {fitness}"
             for gene, fitness in self.genepool
         ]
 
-        print(f"""INPUT:
+        print(f"""
+              Simulation info:
+              - - -
               maximum number of generations: {self.max_generations},
               population size: {self.population_size},
               available genes: {gene_lines}
@@ -82,13 +101,13 @@ class Simulation:
         df_simu = pl.DataFrame(self.data)
         # df_theory = pl.DataFrame(self._selection_model())
         (
-            ggplot(df_simu, aes(x="generation", color="genotype"))
+            ggplot(df_simu, aes(x="generation", color="allele"))
             + geom_line(aes(y="frequency"), size=1)
             # + geom_line(data=df_theory,
             #            mapping=aes(y="expected_frequency", linetype="'Teórico'"),
             #            size=1
             #            )
-            + labs(x="Geração", y="Frequência", color="Genótipo")
+            + labs(x="Geração", y="Frequência", color="Alelo")
 
             # + scale_linetype_manual(
             #     name="Fonte dos Dados",

@@ -64,13 +64,3 @@ class Generation:
 
         return next_gen
 
-    # TODO: Still under development
-    def get_locus_frequency(self, locus: Locus):
-        freq = 0
-        for i in self:
-            for j in i.genotype:
-                if j == locus:
-                    freq += 1
-
-        return float(freq/len(self))
-

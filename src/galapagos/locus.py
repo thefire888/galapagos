@@ -16,6 +16,12 @@ class Locus:
     def __eq__(self, other: Self):
         return set(self.alleles) == set(other.alleles)
 
-    def pass_alelle(self):
+    def __getitem__(self, key):
+        return sorted(self.alleles)[key]
+
+    def __len__(self):
+        return len(self.alleles)
+
+    def pass_allele(self):
         rand = random.randint(0, len(self.alleles) - 1)
         return self.alleles[rand]
