@@ -13,8 +13,10 @@ class Generation:
 
     def __len__(self):
         partial_size = 0
-        for ind in self.population:
-            partial_size += ind[1]
+        for item in self.population:
+            individual = item[0]
+            individual_count = item[1]
+            partial_size += individual_count
         return partial_size
 
     def __getitem__(self, key):
@@ -37,12 +39,12 @@ class Generation:
         next_gen = Generation(genepool=self.genepool)
         male_available_individuals = []
         female_available_individuals = []
-        for ind in self.population:
-            individual = ind[0]
+        for item in self.population:
+            individual = item[0]
             if individual.sex == "M":
-                male_available_individuals.append(ind)
+                male_available_individuals.append(item)
             else:
-                female_available_individuals.append(ind)
+                female_available_individuals.append(item)
 
         for i in range(len(self)):
             father = Utils.select_individual(male_available_individuals)
@@ -51,9 +53,10 @@ class Generation:
             newborn.update_fitness(self.genepool)
 
             newborn_in_pop = False
-            for ind in next_gen.population:
-                if newborn == ind[0]:
-                    ind[1] += 1
+            for item in next_gen.population:
+                individual = item[0]
+                if newborn == individual:
+                    item[1] += 1  # It seems like Python doesnt like object reference
                     newborn_in_pop = True
             
             if not newborn_in_pop:
@@ -61,6 +64,7 @@ class Generation:
 
         return next_gen
 
+    # TODO: Still under development
     def get_locus_frequency(self, locus: Locus):
         freq = 0
         for i in self:

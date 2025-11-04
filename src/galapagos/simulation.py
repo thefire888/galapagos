@@ -10,6 +10,7 @@ import math
 class Simulation:
     def __init__(self,
                  max_generations: int,
+                 first_generation: Generation,
                  population_size: int,
                  genepool: list
                  ):
@@ -18,22 +19,7 @@ class Simulation:
         self.genepool = genepool
         self.data = []
 
-        first_individuals_list = []
-
-        for i in range(population_size):
-            new_sex = Utils.random_sex()
-            new_genotype = Genotype(size=1)
-            new_genotype[0] = self.genepool[0][0] if i < math.ceil(population_size*5/100) else self.genepool[2][0]
-            new_fitness = self.genepool[0][1] if i < math.ceil(population_size*5/100) else self.genepool[2][1]
-            new_individual = Individual(sex=new_sex,
-                                        genotype=new_genotype,
-                                        fitness=new_fitness)
-            first_individuals_list.append(new_individual)
-
-        self.first_generation = Generation(size=population_size,
-                                           individuals=first_individuals_list,
-                                           genepool=self.genepool
-                                           )
+        self.first_generation = first_generation
         self.generation_history = [self.first_generation]
 
     def _process_generation_data(self, generation, index: int):

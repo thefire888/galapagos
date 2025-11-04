@@ -31,8 +31,14 @@ class Genotype:
         return False
 
     def __eq__(self, other):
-        # TODO: Implement correct eq later
-        return set(self.loci) == set(other.loci)
+        if len(self) != len(other):
+            return False
+        for i in range(len(self)):
+            if self[i] != other[i]:
+                return False
+
+        return True
+
 
     @property
     def loci(self):
