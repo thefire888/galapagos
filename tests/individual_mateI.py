@@ -1,10 +1,6 @@
-import sys
-import os
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
-
-from locus import Locus
-from genotype import Genotype
-from individual import Individual
+from galapagos.locus import Locus
+from galapagos.genotype import Genotype
+from galapagos.individual import Individual
 
 
 # Ensaio I - Testando API do Individual e fazendo amor
@@ -21,7 +17,7 @@ individual_a = Individual(sex='M', genotype=genotype_a)
 individual_b = Individual(sex='F', genotype=genotype_b)
 
 individual_c = individual_a.mate(individual_b)
-print(individual_c)
+print(individual_c == individual_a or individual_c == individual_b)
 
 
 # Ensaio II - Testando API do Individual e fazendo amor
@@ -42,6 +38,7 @@ individual_b = Individual(sex='F', genotype=genotype_b)
 
 individual_c = individual_a.mate(individual_b)
 print(individual_c)
+print(individual_c == individual_a or individual_c == individual_b)
 # Resultado esperado:
 # Sexo: M Genótipo: AA BB  Fitness: 1.0
 

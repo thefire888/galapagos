@@ -23,3 +23,25 @@ class Genotype:
 
     def __setitem__(self, key, value):
         self.__loci[key] = value
+
+    def __contains__(self, locus):
+        for item in self:
+            if item == locus:
+                return True
+        return False
+
+    def __eq__(self, other):
+        if len(self) != len(other):
+            return False
+        for i in range(len(self)):
+            if self[i] != other[i]:
+                return False
+
+        return True
+
+    def __hash__(self):
+        return hash(tuple(self.__loci))
+
+    @property
+    def loci(self):
+        return self.__loci
