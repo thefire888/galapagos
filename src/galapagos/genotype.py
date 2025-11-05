@@ -39,6 +39,8 @@ class Genotype:
 
         return True
 
+    def __hash__(self):
+        return hash(tuple(self.__loci))
 
     @property
     def loci(self):

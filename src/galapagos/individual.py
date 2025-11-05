@@ -21,6 +21,9 @@ class Individual:
     def __eq__(self, other):
         return (self.fitness == other.fitness) and (self.sex == other.sex) and (self.genotype == other.genotype)
 
+    def __hash__(self):
+        return hash((self.fitness, self.sex, self.genotype))
+
     @property
     def fitness(self):
         return self.__fitness

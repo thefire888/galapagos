@@ -4,6 +4,7 @@ from galapagos.genotype import Genotype
 from galapagos.individual import Individual
 from plotnine import *
 from collections import defaultdict
+import plotly.express as px
 import numpy as np
 import polars as pl
 import math
@@ -12,11 +13,9 @@ class Simulation:
     def __init__(self,
                  max_generations: int,
                  first_generation: Generation,
-                 population_size: int,
                  genepool: list
                  ):
         self.max_generations = max_generations
-        self.population_size = population_size
         self.genepool = genepool
         self.data = []
 
@@ -83,13 +82,10 @@ class Simulation:
             for gene, fitness in self.genepool
         ]
 
-        print(f"""
-              Simulation info:
-              - - -
-              maximum number of generations: {self.max_generations},
-              population size: {self.population_size},
-              available genes: {gene_lines}
-              """
+        print(f"Simulation info: \n"
+              f"maximum number of generations: {self.max_generations}, \n"
+              f"population size: {len(self.first_generation)}, \n"
+              f"available genes: {gene_lines}"
              )
         for i in range(self.max_generations):
             new_generation = self.generation_history[i].next()
@@ -99,10 +95,18 @@ class Simulation:
     def show(self):
 
         df_simu = pl.DataFrame(self.data)
+        # fig = px.line(df_simu,
+        #               x="generation",
+        #               y="frequency",
+        #               color="allele",
+        #               title="Simulação de Frequência de Genótipo")
+
+        # fig.show()
         # df_theory = pl.DataFrame(self._selection_model())
         (
             ggplot(df_simu, aes(x="generation", color="allele"))
             + geom_line(aes(y="frequency"), size=1)
+            + scale_y_continuous(limits=(0, 1))
             # + geom_line(data=df_theory,
             #            mapping=aes(y="expected_frequency", linetype="'Teórico'"),
             #            size=1

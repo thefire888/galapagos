@@ -4,6 +4,7 @@ Responsible for generating the next generation
 """
 from galapagos.utils import Utils
 from typing import Self
+from collections import defaultdict
 
 
 class Generation:
@@ -46,21 +47,18 @@ class Generation:
             else:
                 female_available_individuals.append(item)
 
+        next_gen_individual_counts = defaultdict(int)
         for i in range(len(self)):
             father = Utils.select_individual(male_available_individuals)
             mother = Utils.select_individual(female_available_individuals)
             newborn = father.mate(mother)
             newborn.update_fitness(self.genepool)
 
-            newborn_in_pop = False
-            for item in next_gen.population:
-                individual = item[0]
-                if newborn == individual:
-                    item[1] += 1  # It seems like Python doesnt like object reference
-                    newborn_in_pop = True
-            
-            if not newborn_in_pop:
-                next_gen.population.append([newborn, 1])
+            next_gen_individual_counts[newborn] += 1
+
+        next_gen.population = [
+            [individual, individual_count] for individual, individual_count in next_gen_individual_counts.items()
+        ]
 
         return next_gen
 
