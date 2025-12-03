@@ -46,20 +46,11 @@ class Generation:
 
     def next(self) -> Self:
         next_gen = Generation(genepool=self.genepool, duplication_chance=self.duplication_chance, mutation_chance=self.mutation_chance)
-        male_available_individuals = []
-        female_available_individuals = []
-        for item in self.population:
-            individual = item[0]
-            if individual.sex == "M":
-                male_available_individuals.append(item)
-            else:
-                female_available_individuals.append(item)
 
         next_gen_individual_counts = defaultdict(int)
         for i in range(len(self)):
-            father = Utils.select_individual(male_available_individuals)
-            mother = Utils.select_individual(female_available_individuals)
-            newborn = father.mate(mother, next_gen.duplication_chance, next_gen.mutation_chance, next_gen.genepool)
+            some_individual = Utils.select_individual(self.population)
+            newborn = some_individual.clone(next_gen.duplication_chance, next_gen.mutation_chance, next_gen.genepool)
             newborn.update_fitness(self.genepool)
 
             next_gen_individual_counts[newborn] += 1
