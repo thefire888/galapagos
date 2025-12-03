@@ -1,6 +1,7 @@
 """
 Defines an individual to simulate.
 """
+import random
 from galapagos.genotype import Genotype
 from galapagos.locus import Locus
 from galapagos.utils import Utils
@@ -36,13 +37,25 @@ class Individual:
     def sex(self):
         return self.__sex
 
-    def mate(self, other: Self) -> Self:
-        new_genotype = Genotype(size=len(self.genotype))
+    def mate(self, other: Self, duplicate_chance) -> Self:
+        # hard coded chance of getting the size from mother or father.
+        genotype_size_dice = random.uniform(0, 1)
+        if genotype_size_dice <= 0.5:
+            new_genotype = Genotype(size=len(self.genotype))
+        else:
+            new_genotype = Genotype(size=len(other.genotype))
+
         for i in range(len(self.genotype)):
-            locus = Locus( (self.genotype[i].pass_allele(),
-                            other.genotype[i].pass_allele())
+            locus = Locus((self.genotype[i].pass_allele(),
+                           other.genotype[i].pass_allele())
                           )
             new_genotype[i] = locus
+
+        for i in range(len(new_genotype)):
+            duplicate_dice = random.uniform(0,1)
+            if duplicate_dice < duplicate_chance:
+                new_genotype.size += 1
+                new_genotype.append(new_genotype[i])
 
         new_sex = Utils.random_sex()
         newborn = Individual(new_sex, new_genotype)
