@@ -22,8 +22,8 @@ p = int(input("Tamanho da população: "))
 
 
 genepool = [(Locus(("A1")), 1.0),
-            (Locus(("A2")), 1.0),
-            (Locus(("A3")), 1.0)
+            (Locus(("A2")), 0.99),
+            (Locus(("A3")), 0.95)
             ]
 
 genotype_A = Genotype(size=1)
