@@ -75,7 +75,8 @@ class Individual:
         else:
             new_genotype = Genotype(size=len(other.genotype))
 
-        for i in range(len(self.genotype)):
+        lesser_genome_size = min(len(self.genotype), len(other.genotype))
+        for i in range(lesser_genome_size):
             locus = Locus((self.genotype[i].pass_allele(),
                            other.genotype[i].pass_allele())
                           )
