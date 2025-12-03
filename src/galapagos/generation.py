@@ -8,7 +8,7 @@ from collections import defaultdict
 
 
 class Generation:
-    def __init__(self, population: list = [], genepool: list = []):
+    def __init__(self, population: list = [], genepool: list = [], duplication_chance: float = 0.0):
         """
             uma geração define os indivíduos da população em um dado período de tempo.
             args:
@@ -17,7 +17,7 @@ class Generation:
         """
         self.__genepool = genepool
         self.population = population 
-        self.duplication_chance = 0.01
+        self.duplication_chance = duplication_chance
 
     def __len__(self):
         partial_size = 0
@@ -44,7 +44,7 @@ class Generation:
         return self.__genepool
 
     def next(self) -> Self:
-        next_gen = Generation(genepool=self.genepool)
+        next_gen = Generation(genepool=self.genepool, duplication_chance=self.duplication_chance)
         male_available_individuals = []
         female_available_individuals = []
         for item in self.population:
@@ -58,7 +58,7 @@ class Generation:
         for i in range(len(self)):
             father = Utils.select_individual(male_available_individuals)
             mother = Utils.select_individual(female_available_individuals)
-            newborn = father.mate(mother, self.duplication_chance)
+            newborn = father.mate(mother, next_gen.duplication_chance)
             newborn.update_fitness(self.genepool)
 
             next_gen_individual_counts[newborn] += 1
