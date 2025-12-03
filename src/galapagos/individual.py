@@ -100,6 +100,6 @@ class Individual:
     def update_fitness(self, genepool):
         if genepool:
             self.fitness = 0.0
-            for gene in self.genotype:
-                idx = genepool.index(gene)
+            for locus in self.genotype:
+                idx = [gene[0] for gene in genepool].index(locus)
                 self.fitness += genepool[idx][1]/len(self.genotype)
