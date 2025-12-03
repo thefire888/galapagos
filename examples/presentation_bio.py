@@ -16,7 +16,7 @@ from galapagos.utils import Utils
 
 # n/2 simulações exatamente iguais com pouco e n/2 simulações com muitos indivíduos
 
-n = int(input("number of simulations: "))
+n = int(input("number of generations: "))
 
 
 genepool = [(Locus(("A1")), 1.0),
@@ -30,8 +30,8 @@ individual_A1F = Individual(sex='F', genotype=genotype_A)
 individual_A1M = Individual(sex='M', genotype=genotype_A)
 
 population = [
-                [individual_A1F, 50],
-                [individual_A1M, 50]
+                [individual_A1F, 100],
+                [individual_A1M, 100]
              ]
 
 first_gen = Generation(population=population,
