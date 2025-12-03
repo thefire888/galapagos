@@ -15,9 +15,7 @@ class Utils:
         # In probability theory, this is known
         # as sampling from a discrete distribution.
         cumulative_fit = 0
-        total_cumulative_fit = (Utils
-                                .get_total_cumulative_fit(available_individuals)
-                                )
+        total_cumulative_fit = (Utils.get_total_cumulative_fit(available_individuals))
         rand = random.uniform(0, total_cumulative_fit)
         for individual in available_individuals:
             cumulative_fit += individual[0].fitness * individual[1]

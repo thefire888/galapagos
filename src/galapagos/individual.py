@@ -1,6 +1,7 @@
 """
 Defines an individual to simulate.
 """
+import random
 from galapagos.genotype import Genotype
 from galapagos.locus import Locus
 from galapagos.utils import Utils
@@ -36,13 +37,28 @@ class Individual:
     def sex(self):
         return self.__sex
 
-    def mate(self, other: Self) -> Self:
+    def clone(self,
+              duplication_chance: float = 0.0,
+              mutation_chance: float = 0.0,
+              genepool: list = []) -> Self:
+
         new_genotype = Genotype(size=len(self.genotype))
+
         for i in range(len(self.genotype)):
-            locus = Locus( (self.genotype[i].pass_allele(),
-                            other.genotype[i].pass_allele())
-                          )
+            locus = self.genotype[i]
             new_genotype[i] = locus
+
+        # gene duplication and mutation
+        for i in range(len(new_genotype)):
+            duplication_dice = random.uniform(0, 1)
+            if duplication_dice < duplication_chance:
+                new_genotype.size += 1
+                new_genotype.append(new_genotype[i])
+            mutation_dice = random.uniform(0, 1)
+            if mutation_dice < mutation_chance:
+                gene_to_mutate_dice = random.randint(0, len(genepool) - 1)
+                gene_to_mutate = genepool[gene_to_mutate_dice][0]
+                new_genotype[i] = gene_to_mutate
 
         new_sex = Utils.random_sex()
         newborn = Individual(new_sex, new_genotype)
@@ -52,6 +68,6 @@ class Individual:
     def update_fitness(self, genepool):
         if genepool:
             self.fitness = 0.0
-            for gene in genepool:
-                if gene[0] in self.genotype:
-                    self.fitness += gene[1]/len(self.genotype)
+            for locus in self.genotype:
+                idx = [gene[0] for gene in genepool].index(locus)
+                self.fitness += genepool[idx][1]/len(self.genotype)

@@ -8,9 +8,17 @@ from collections import defaultdict
 
 
 class Generation:
-    def __init__(self, population: list = [], genepool: list = []):
+    def __init__(self, population: list = [], genepool: list = [], duplication_chance: float = 0.0, mutation_chance: float = 0.0):
+        """
+            uma geração define os indivíduos da população em um dado período de tempo.
+            args:
+                population (list) = uma lista de tuplas com (tipo de indivíduo, quantidade igual na população)
+                genepool (list) = uma lista dos tuplas com (Carctére representativo do alelo, fitness)
+        """
         self.__genepool = genepool
         self.population = population 
+        self.duplication_chance = duplication_chance
+        self.mutation_chance = mutation_chance
 
     def __len__(self):
         partial_size = 0
@@ -37,21 +45,12 @@ class Generation:
         return self.__genepool
 
     def next(self) -> Self:
-        next_gen = Generation(genepool=self.genepool)
-        male_available_individuals = []
-        female_available_individuals = []
-        for item in self.population:
-            individual = item[0]
-            if individual.sex == "M":
-                male_available_individuals.append(item)
-            else:
-                female_available_individuals.append(item)
+        next_gen = Generation(genepool=self.genepool, duplication_chance=self.duplication_chance, mutation_chance=self.mutation_chance)
 
         next_gen_individual_counts = defaultdict(int)
         for i in range(len(self)):
-            father = Utils.select_individual(male_available_individuals)
-            mother = Utils.select_individual(female_available_individuals)
-            newborn = father.mate(mother)
+            some_individual = Utils.select_individual(self.population)
+            newborn = some_individual.clone(next_gen.duplication_chance, next_gen.mutation_chance, next_gen.genepool)
             newborn.update_fitness(self.genepool)
 
             next_gen_individual_counts[newborn] += 1

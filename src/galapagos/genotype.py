@@ -24,6 +24,14 @@ class Genotype:
     def __setitem__(self, key, value):
         self.__loci[key] = value
 
+    @property
+    def size(self):
+        return self.__size
+
+    @size.setter
+    def size(self, value):
+        self.__size = value
+
     def __contains__(self, locus):
         for item in self:
             if item == locus:
@@ -45,3 +53,6 @@ class Genotype:
     @property
     def loci(self):
         return self.__loci
+
+    def append(self, new_value):
+        self.__loci.append(new_value)
