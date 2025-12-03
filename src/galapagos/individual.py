@@ -63,42 +63,6 @@ class Individual:
 
         return newborn
 
-    def mate(self, other: Self,
-             duplication_chance: float = 0.0,
-             mutation_chance: float = 0.0,
-             genepool: list = []) -> Self:
-
-        # hard coded chance of getting the size from mother or father.
-        genotype_size_dice = random.uniform(0, 1)
-        if genotype_size_dice <= 0.5:
-            new_genotype = Genotype(size=len(self.genotype))
-        else:
-            new_genotype = Genotype(size=len(other.genotype))
-
-        lesser_genome_size = min(len(self.genotype), len(other.genotype))
-        for i in range(lesser_genome_size):
-            locus = Locus((self.genotype[i].pass_allele(),
-                           other.genotype[i].pass_allele())
-                          )
-            new_genotype[i] = locus
-
-        # gene duplication and mutation
-        for i in range(len(new_genotype)):
-            duplication_dice = random.uniform(0, 1)
-            if duplication_dice < duplication_chance:
-                new_genotype.size += 1
-                new_genotype.append(new_genotype[i])
-            mutation_dice = random.uniform(0, 1)
-            if mutation_dice < mutation_chance:
-                gene_to_mutate_dice = random.randint(0, len(genepool) - 1)
-                gene_to_mutate = genepool[gene_to_mutate_dice][0]
-                new_genotype[i] = gene_to_mutate
-
-        new_sex = Utils.random_sex()
-        newborn = Individual(new_sex, new_genotype)
-
-        return newborn
-
     def update_fitness(self, genepool):
         if genepool:
             self.fitness = 0.0
