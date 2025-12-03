@@ -9,7 +9,7 @@ from typing import Self
 
 
 class Individual:
-    def __init__(self, sex: str, genotype: Genotype,
+    def __init__(self, sex: str = "A", genotype: Genotype,
                  fitness: float = 1.0):
         self.__fitness = fitness
         self.__sex = sex
