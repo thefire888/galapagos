@@ -90,7 +90,7 @@ class Individual:
                 new_genotype.append(new_genotype[i])
             mutation_dice = random.uniform(0, 1)
             if mutation_dice < mutation_chance:
-                new_genotype[i] = genepool[random.randint(0, len(genepool) - 1)]
+                new_genotype[i] = genepool[random.randint(0, len(genepool) - 1)][0]
 
         new_sex = Utils.random_sex()
         newborn = Individual(new_sex, new_genotype)
