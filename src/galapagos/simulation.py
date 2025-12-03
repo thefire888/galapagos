@@ -22,7 +22,6 @@ class Simulation:
         self.first_generation = first_generation
         self.generation_history = [self.first_generation]
 
-    # TODO: Still under development
     def _get_individual_allele_frequency(self, 
                                          freq_dict,
                                          individual: Individual, 
@@ -43,34 +42,6 @@ class Simulation:
                 "allele": str(allele),
                 "frequency": allele_count / (len(locus) * len(generation))
             })
-
-    def _selection_model(self) -> list:
-        # TODO: Rever referência, me parece errado
-        data_theory = []
-        first_gen = self.first_generation
-        freq_prev = {}
-        freq_theory = {}
-
-        for locus, _ in self.genepool:
-            freq_prev[str(locus)] = first_gen.get_locus_frequency(locus)
-
-        for g in range(self.max_generations):
-            fitness_avg = 0
-
-            # Calculates fitness_avg
-            for locus, fitness in self.genepool:
-                fitness_avg += freq_prev[str(locus)] * fitness
-
-            # Calculate expected frequency
-            for locus, fitness in self.genepool:
-                freq_theory[str(locus)] = freq_prev[str(locus)] * fitness / fitness_avg
-                data_theory.append({
-                    "generation": g + 1,
-                    "genotype": str(locus),
-                    "expected_frequency": freq_theory[str(locus)]
-                })
-            freq_prev = freq_theory
-        return data_theory
 
     def get_allele_frequency(self, allele: str):
         df = pl.DataFrame(self.data)
@@ -95,26 +66,9 @@ class Simulation:
     def show(self):
 
         df_simu = pl.DataFrame(self.data)
-        # fig = px.line(df_simu,
-        #               x="generation",
-        #               y="frequency",
-        #               color="allele",
-        #               title="Simulação de Frequência de Genótipo")
-
-        # fig.show()
-        # df_theory = pl.DataFrame(self._selection_model())
         (
             ggplot(df_simu, aes(x="generation", color="allele"))
             + geom_line(aes(y="frequency"), size=1)
             + scale_y_continuous(limits=(0, 1))
-            # + geom_line(data=df_theory,
-            #            mapping=aes(y="expected_frequency", linetype="'Teórico'"),
-            #            size=1
-            #            )
             + labs(x="Geração", y="Frequência", color="Alelo")
-
-            # + scale_linetype_manual(
-            #     name="Fonte dos Dados",
-            #     values={"Simulado": "solid", "Teórico": "dashed"}
-            # )
         ).show()
