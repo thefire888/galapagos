@@ -9,6 +9,12 @@ from collections import defaultdict
 
 class Generation:
     def __init__(self, population: list = [], genepool: list = []):
+        """
+            uma geração define os indivíduos da população em um dado período de tempo.
+            args:
+                population (list) = uma lista de tuplas com (tipo de indivíduo, quantidade igual na população)
+                genepool (list) = uma lista dos tuplas com (Carctére representativo do alelo, fitness)
+        """
         self.__genepool = genepool
         self.population = population 
 
