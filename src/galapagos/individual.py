@@ -39,7 +39,7 @@ class Individual:
 
     def mate(self, other: Self,
              duplication_chance: float = 0.0,
-             mutate_chance: float = 0.0,
+             mutation_chance: float = 0.0,
              genepool: list = []) -> Self:
 
         # hard coded chance of getting the size from mother or father.
@@ -61,6 +61,9 @@ class Individual:
             if duplication_dice < duplication_chance:
                 new_genotype.size += 1
                 new_genotype.append(new_genotype[i])
+            mutation_dice = random.uniform(0, 1)
+            if mutation_dice < mutation_chance:
+                new_genotype[i] = genepool[random.randint(0, len(genepool) - 1)]
 
         new_sex = Utils.random_sex()
         newborn = Individual(new_sex, new_genotype)
