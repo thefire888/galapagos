@@ -37,7 +37,11 @@ class Individual:
     def sex(self):
         return self.__sex
 
-    def mate(self, other: Self, duplicate_chance) -> Self:
+    def mate(self, other: Self,
+             duplication_chance: float = 0.0,
+             mutate_chance: float = 0.0,
+             genepool: list = []) -> Self:
+
         # hard coded chance of getting the size from mother or father.
         genotype_size_dice = random.uniform(0, 1)
         if genotype_size_dice <= 0.5:
@@ -51,9 +55,10 @@ class Individual:
                           )
             new_genotype[i] = locus
 
+        # gene duplication and mutation
         for i in range(len(new_genotype)):
-            duplicate_dice = random.uniform(0,1)
-            if duplicate_dice < duplicate_chance:
+            duplication_dice = random.uniform(0, 1)
+            if duplication_dice < duplication_chance:
                 new_genotype.size += 1
                 new_genotype.append(new_genotype[i])
 
