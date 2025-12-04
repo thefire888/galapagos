@@ -40,7 +40,8 @@ class Individual:
     def clone(self,
               duplication_chance: float = 0.0,
               mutation_chance: float = 0.0,
-              genepool: list = []) -> Self:
+              genepool: list = [],
+              equal_mutation_odds: bool = False) -> Self:
 
         new_genotype = Genotype(size=len(self.genotype))
 
@@ -54,11 +55,20 @@ class Individual:
             if duplication_dice < duplication_chance:
                 new_genotype.size += 1
                 new_genotype.append(new_genotype[i])
-            mutation_dice = random.uniform(0, 1)
-            if mutation_dice < mutation_chance:
-                gene_to_mutate_dice = random.randint(0, len(genepool) - 1)
-                gene_to_mutate = genepool[gene_to_mutate_dice][0]
-                new_genotype[i] = gene_to_mutate
+
+            if (equal_mutation_odds):
+                mutation_dice = random.uniform(0, 1)
+                if mutation_dice < mutation_chance:
+                    gene_to_mutate_dice = random.randint(0, len(genepool) - 1)
+                    gene_to_mutate = genepool[gene_to_mutate_dice][0]
+                    new_genotype[i] = gene_to_mutate
+            else:
+                mutation_dice = random.uniform(0, 1)
+                if mutation_dice < mutation_chance:
+                    options_with_odds = [(locus, odd) for locus,fitness, odd in genepool]
+                    gene_to_mutate = Utils.sample_from_distribution(options_with_odds)
+                    new_genotype[i] = gene_to_mutate
+
 
         new_sex = Utils.random_sex()
         newborn = Individual(new_sex, new_genotype)
@@ -67,7 +77,9 @@ class Individual:
 
     def update_fitness(self, genepool):
         if genepool:
-            self.fitness = 0.0
+            self.fitness = 1.0
+            gene_cost = 0.0005
             for locus in self.genotype:
                 idx = [gene[0] for gene in genepool].index(locus)
-                self.fitness += genepool[idx][1]/len(self.genotype)
+                self.fitness *= genepool[idx][1]
+            self.fitness *= (1 - gene_cost * len(self.genotype))
