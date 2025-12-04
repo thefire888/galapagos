@@ -4,7 +4,7 @@ from galapagos.genotype import Genotype
 from galapagos.individual import Individual
 from galapagos.generation import Generation
 from galapagos.utils import Utils
-
+import matplotlib.pyplot as plt
 
 # n simulações com passo de aumento da população de uma pra outra 100 individuos
 # taxa de mutação : m
@@ -16,9 +16,10 @@ from galapagos.utils import Utils
 
 # n/2 simulações exatamente iguais com pouco e n/2 simulações com muitos indivíduos
 
-n = int(input("number of generations: "))
-m = float(input("Chance de mutação (0-1): "))
-p = int(input("Tamanho da população: "))
+# Inicialização da simulação
+number_of_generations = int(input("number of generations: "))
+mutation_chance = float(input("Chance de mutação (0-1): "))
+population_size = int(input("Tamanho da população: "))
 
 
 genepool = [(Locus(("A1")), 1.0),
@@ -32,17 +33,32 @@ individual_A1F = Individual(sex='F', genotype=genotype_A)
 individual_A1M = Individual(sex='M', genotype=genotype_A)
 
 population = [
-                [individual_A1F, p],
+                [individual_A1F, population_size],
              ]
 
 first_gen = Generation(population=population,
                        genepool=genepool,
                        duplication_chance=0.01,
-                       mutation_chance=m)  # 0.00000005
+                       mutation_chance=mutation_chance)  # 0.00000005
 
 generation_history = [first_gen]
+genotype_size_history = []
 
-for i in range(n):
+# Simulação
+
+for i in range(number_of_generations):
+
+    # Gera próxima geração e mostra a anterior
     generation_history.append(generation_history[i].next())
     print(f"Geração {i}: {generation_history[i]}")
 
+    # Conta o tamanho médio do genótipo das n-1 gerações seguintes
+    medium_genotype_size = 0
+    for individual in generation_history[i+1]:
+        medium_genotype_size += len(individual[0].genotype) * individual[1]
+    genotype_size_history.append(medium_genotype_size)
+
+# Visualização de resultados
+
+plt.scatter(list(range(number_of_generations)), genotype_size_history)
+plt.show()
