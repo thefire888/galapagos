@@ -25,3 +25,27 @@ class Utils:
         if cumulative_fit <= rand:
             raise Exception("Valor aleatório não mapeia para "
                             "nenhum indivíduo")
+
+    def get_max_sample(options_with_odds: list):
+        max_sample = 0
+        for option_with_odd in options_with_odds:
+            odd = option_with_odd[1]
+            max_sample += odd
+        return max_sample
+
+    def sample_from_distribution(options_with_odds: list):
+        # In probability theory, this is known
+        # as sampling from a discrete distribution.
+        sample = 0
+        max_sample = (Utils.get_max_sample(options_with_odds))
+        rand = random.uniform(0, max_sample)
+        for option_with_odd in options_with_odds:
+            option = option_with_odd[0]
+            odd = option_with_odd[1]
+            sample += odd
+            if sample > rand:
+                return option
+
+        if sample <= rand:
+            raise Exception("Valor aleatório não mapeia para "
+                            "nenhum indivíduo")
