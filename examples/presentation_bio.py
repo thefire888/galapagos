@@ -44,7 +44,7 @@ for simulation_parameters in simulations_parameters_list:
 
     first_gen = Generation(population=population,
                            genepool=genepool,
-                           duplication_chance=0.01,
+                           duplication_chance=0.0001,
                            mutation_chance=mutation_chance)  # 0.00000005
 
     generation_history = [first_gen]
@@ -62,7 +62,7 @@ for simulation_parameters in simulations_parameters_list:
         medium_genotype_size = 0
         for individual in generation_history[i+1]:
             medium_genotype_size += len(individual[0].genotype) * individual[1]
-        genotype_size_history.append(medium_genotype_size)
+        genotype_size_history.append(medium_genotype_size / population_size)
 
     # Visualização de resultados
 
