@@ -8,7 +8,13 @@ from collections import defaultdict
 
 
 class Generation:
-    def __init__(self, population: list = [], genepool: list = [], duplication_chance: float = 0.0, mutation_chance: float = 0.0):
+    def __init__(self,
+                 population: list = [],
+                 genepool: list = [],
+                 duplication_chance: float = 0.0,
+                 mutation_chance: float = 0.0,
+                 equal_mutation_odds: bool = False
+                ):
         """
             uma geração define os indivíduos da população em um dado período de tempo.
             args:
@@ -19,6 +25,7 @@ class Generation:
         self.population = population 
         self.duplication_chance = duplication_chance
         self.mutation_chance = mutation_chance
+        self.equal_mutation_odds = equal_mutation_odds
 
     def __len__(self):
         partial_size = 0
@@ -45,12 +52,20 @@ class Generation:
         return self.__genepool
 
     def next(self) -> Self:
-        next_gen = Generation(genepool=self.genepool, duplication_chance=self.duplication_chance, mutation_chance=self.mutation_chance)
+        next_gen = Generation(genepool=self.genepool,
+                              duplication_chance=self.duplication_chance,
+                              mutation_chance=self.mutation_chance,
+                              equal_mutation_odds=self.equal_mutation_odds
+                             )
 
         next_gen_individual_counts = defaultdict(int)
         for i in range(len(self)):
             some_individual = Utils.select_individual(self.population)
-            newborn = some_individual.clone(next_gen.duplication_chance, next_gen.mutation_chance, next_gen.genepool)
+            newborn = some_individual.clone(next_gen.duplication_chance,
+                                            next_gen.mutation_chance,
+                                            next_gen.genepool,
+                                            equal_mutation_odds=self.equal_mutation_odds
+                                           )
             newborn.update_fitness(self.genepool)
 
             next_gen_individual_counts[newborn] += 1
