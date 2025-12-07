@@ -1,6 +1,10 @@
+[build-system]
+requires = ["maturin>=1.10,<2.0"]
+build-backend = "maturin"
+
 [project]
-name = "galapagos-evo"
-version = "0.1.1"
+name = "galapagos_evo"
+version = "0.2.1"
 authors = [
   { name="Luan Leal", email="luanleal@usp.br" },
   { name="Micael Baruch", email="micael.mbaruch@usp.br"}
@@ -20,6 +24,5 @@ Homepage = "https://github.com/thefire888/galapagos"
 Issues = "https://github.com/thefire888/galapagos/issues"
 
 [tool.setuptools]
-package-dir = {"" = "src"}
 packages = ["galapagos"]
 
