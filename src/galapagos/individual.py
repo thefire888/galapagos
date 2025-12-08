@@ -78,7 +78,7 @@ class Individual:
     def update_fitness(self, genepool):
         if genepool:
             self.fitness = 1.0
-            gene_cost = 0.0005
+            gene_cost = 0.005
             for locus in self.genotype:
                 idx = [gene[0] for gene in genepool].index(locus)
                 self.fitness *= genepool[idx][1]

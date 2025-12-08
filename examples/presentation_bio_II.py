@@ -6,22 +6,9 @@ from galapagos.generation import Generation
 from galapagos.utils import Utils
 import matplotlib.pyplot as plt
 
-# n simulações com passo de aumento da população de uma pra outra 100 individuos
-# taxa de mutação : m
-# taxa de duplicação: d
-# genepool: pool
-# proporção incial de genes
-# tamanho inicial do genotype
-# tamanho da população
-
-# n/2 simulações exatamente iguais com pouco e n/2 simulações com muitos indivíduos
-
-# Inicialização da simulação
-# number_of_generations = int(input("number of generations: "))
-# mutation_chance = float(input("Chance de mutação (0-1): "))
-# population_size = int(input("Tamanho da população: "))
-
-
+# Step 1: Como guardar os dados de tamanho genotípico médio final 
+# Step 2: definir os parâmetros base
+# Step 3: preparar uma simulação para cada um dos parâmetros: p0, mut_chance, dup_chance, geneome_size_cost
 simulations_parameters_list =[
                                 (800, 0.005, 100),
                                 (800, 0.005, 1000)
