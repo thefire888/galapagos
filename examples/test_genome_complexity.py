@@ -24,7 +24,7 @@ import matplotlib.pyplot as plt
 
 simulations_parameters_list =[
                                 (5000, 0.0005, 100),
-                                (5000, 0.0005, 10000)
+                                (50, 0.0005, 10000)
                              ]
 for simulation_parameters in simulations_parameters_list:
     number_of_generations, mutation_chance, population_size = simulation_parameters
@@ -44,7 +44,7 @@ for simulation_parameters in simulations_parameters_list:
 
     first_gen = Generation(population=population,
                            genepool=genepool,
-                           duplication_chance=0.0001,
+                           duplication_chance=0.1,
                            mutation_chance=mutation_chance)  # 0.00000005
 
     generation_history = [first_gen]
@@ -59,13 +59,13 @@ for simulation_parameters in simulations_parameters_list:
         # print(f"Geração {i}: {generation_history[i]}")
 
         # Conta o tamanho médio do genótipo das n-1 gerações seguintes
-        # medium_genotype_size = 0
-        # for individual in generation_history[i+1]:
-        #     medium_genotype_size += len(individual[0].genotype) * individual[1]
-        # genotype_size_history.append(medium_genotype_size / population_size)
+        medium_genotype_size = 0
+        for individual in generation_history[i+1]:
+            medium_genotype_size += len(individual[0].genotype) * individual[1]
+        genotype_size_history.append(medium_genotype_size / population_size)
 
     # Visualização de resultados
 
-    # plt.scatter(list(range(number_of_generations)), genotype_size_history)
-    # plt.show()
-    print(f"{generation_history[number_of_generations - 1]}")
+    plt.scatter(list(range(number_of_generations)), genotype_size_history)
+    plt.show()
+    # print(f"{generation_history[number_of_generations - 1]}")

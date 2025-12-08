@@ -1,0 +1,12 @@
+[package]
+name = "galapagos"
+version = "0.2.1"
+edition = "2024"
+
+[lib]
+name = "galapagos_evo"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = "0.27.0"
+rand = "0.8"
