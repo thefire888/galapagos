@@ -1,4 +1,3 @@
-from galapagos.simulation import Simulation
 from galapagos.locus import Locus
 from galapagos.genotype import Genotype
 from galapagos.individual import Individual
@@ -28,22 +27,20 @@ import time
 # Step 2: definir os parâmetros base
 # Step 3: preparar uma simulação para cada um dos parâmetros: p0, mut_chance, dup_chance, geneome_size_cost
 
-random.seed(42)
 start = time.process_time()
 
-population_sizes_list = np.arange(10, 10010, 100)
+gene_cost_variation_list = np.arange(0, 0.05, 0.0025)
 simulations_parameters_list = []
 duplication_chance = 0.001
-for population in population_sizes_list:
-    simulations_parameters_list.append((500, 0.0005, population))
+for gene_cost in gene_cost_variation_list:
+    simulations_parameters_list.append((500, 0.0005, 500, gene_cost))
 
 avg_final_genotype_size_parameter = []
 for scenario in range(len(simulations_parameters_list)):
     simulation_parameters = simulations_parameters_list[scenario]
-    number_of_generations, mutation_chance, population_size = simulation_parameters
+    number_of_generations, mutation_chance, population_size, gene_cost = simulation_parameters
     print(f"CENARIO: {scenario + 1}/{len(simulations_parameters_list)}")
-    number_of_generations, mutation_chance, population_size = simulation_parameters
-    number_of_runs = 1
+    number_of_runs = 15
     genepool = [(Locus(("A1")), 1.0, 1),
                 (Locus(("A2")), 0.99, 20),
                 (Locus(("A3")), 0.95, 10),
@@ -59,7 +56,7 @@ for scenario in range(len(simulations_parameters_list)):
     print(f"INPUT: \n Tamanho da população: {population_size}, \n"
           f"Chance de mutação: {mutation_chance}, \n"
           f"Número de gerações: {number_of_generations}, \n"
-          f"Penalidade por gene a mais no genótipo: 0.05, \n"
+          f"Penalidade por gene a mais no genótipo: {gene_cost}, \n"
           f"Chance de duplicação de genes: {duplication_chance}, \n"
           f"Número de corridas por cenário: {number_of_runs}, \n"
           f"População inicial:\n {individual_A1}, quantidade: {population_size}\n"
@@ -74,7 +71,9 @@ for scenario in range(len(simulations_parameters_list)):
         first_gen = Generation(population=population,
                                genepool=genepool,
                                duplication_chance=duplication_chance,
-                               mutation_chance=mutation_chance)  # 0.00000005
+                               mutation_chance=mutation_chance,
+                               gene_cost=gene_cost
+                              )
 
         generation_history = [first_gen]
         genotype_size_history = []
@@ -114,12 +113,12 @@ duration = end - start
 
 print("="*10)
 print(f"Galapagos foi explorada uma vez mais!\n Duração da exploração: {duration}")
-plt.scatter(population_sizes_list, avg_final_genotype_size_parameter, color="blue")
-plt.legend()
+plt.scatter(gene_cost_variation_list, avg_final_genotype_size_parameter, color="green")
 plt.title(f"Mutation chance = {mutation_chance},\
           Number of generations = {number_of_generations},\n\
+          Population size = {population_size} \n\
           Duplication chance = 0.001")
-plt.xlabel("Tamanho da população")
+plt.xlabel("Custo por gene no genótipo")
 plt.ylabel("Tamanho genotípico médio final")
-plt.savefig("population_variation_Queiroz.png")
+plt.savefig("gene_cost_variation_I.png")
 plt.show()

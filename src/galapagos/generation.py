@@ -13,7 +13,8 @@ class Generation:
                  genepool: list = [],
                  duplication_chance: float = 0.0,
                  mutation_chance: float = 0.0,
-                 equal_mutation_odds: bool = False
+                 equal_mutation_odds: bool = False,
+                 gene_cost: float = 0
                 ):
         """
             uma geração define os indivíduos da população em um dado período de tempo.
@@ -26,6 +27,7 @@ class Generation:
         self.duplication_chance = duplication_chance
         self.mutation_chance = mutation_chance
         self.equal_mutation_odds = equal_mutation_odds
+        self.gene_cost = gene_cost
 
     def __len__(self):
         partial_size = 0
@@ -55,7 +57,8 @@ class Generation:
         next_gen = Generation(genepool=self.genepool,
                               duplication_chance=self.duplication_chance,
                               mutation_chance=self.mutation_chance,
-                              equal_mutation_odds=self.equal_mutation_odds
+                              equal_mutation_odds=self.equal_mutation_odds,
+                              gene_cost=self.gene_cost
                              )
 
         next_gen_individual_counts = defaultdict(int)
@@ -66,7 +69,7 @@ class Generation:
                                             next_gen.genepool,
                                             equal_mutation_odds=self.equal_mutation_odds
                                            )
-            newborn.update_fitness(self.genepool)
+            newborn.update_fitness(self.genepool, self.gene_cost)
 
             next_gen_individual_counts[newborn] += 1
 

@@ -75,10 +75,10 @@ class Individual:
 
         return newborn
 
-    def update_fitness(self, genepool):
+    def update_fitness(self, genepool, gene_cost: float = 0):
         if genepool:
             self.fitness = 1.0
-            gene_cost = 0.005
+            gene_cost = gene_cost
             for locus in self.genotype:
                 idx = [gene[0] for gene in genepool].index(locus)
                 self.fitness *= genepool[idx][1]
